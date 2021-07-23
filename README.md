@@ -18,7 +18,7 @@ Install TamperMonkey:
 - [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 - [Firefox](https://addons.mozilla.org/ru/firefox/addon/tampermonkey/)
 
-And install script: [mr.user.js](https://github.com/fortael/tampermonkey-gitlab-helper/raw/master/mr.user.js)
+And install script: [mr.user.js](https://github.com/fortael/tampermonkey-gitlab-helper/raw/main/mr.user.js)
 
 ## Description
 
