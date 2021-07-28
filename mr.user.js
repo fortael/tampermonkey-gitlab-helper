@@ -114,9 +114,7 @@ const getCurrentProjectName = () => {
 // -/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const highlightWhichIsReady = (mergeRequest) => {
-	if (mergeRequest.hasToTestLabel && !mergeRequest.hasTestDoneLabel) return;
-	if (mergeRequest.likes < 2 || mergeRequest.isWip) return;
-	if (mergeRequest.hasMergeConflictsMark) return;
+	if (!mergeRequest.isReady()) return;
 
 	mergeRequest.element.css({
 		backgroundColor: 'rgb(223, 245, 212)',
@@ -124,6 +122,7 @@ const highlightWhichIsReady = (mergeRequest) => {
 	});
 	mergeRequest.element.removeAttr('title');
 };
+
 const highlightPipelines = (mergeRequest) => {
 	if (mergeRequest.isWip) return;
 
@@ -148,9 +147,7 @@ const highlightPipelines = (mergeRequest) => {
 };
 
 const highlightWhichIsAlmostReady = (mergeRequest) => {
-	if (mergeRequest.hasMergeConflictsMark) return;
-	if (mergeRequest.hasToTestLabel && !mergeRequest.hasTestDoneLabel) return;
-	if (mergeRequest.likes < 1 || mergeRequest.isWip) return;
+	if (!mergeRequest.isAlmostReady()) return;
 
 	mergeRequest.element.css({
 		backgroundColor: '#fdf9f0',
@@ -160,6 +157,10 @@ const highlightWhichIsAlmostReady = (mergeRequest) => {
 };
 
 const highlightWhichIsOld = (mergeRequest) => {
+	if (mergeRequest.isReady()) return;
+	if (mergeRequest.isAlmostReady()) return;
+	if (mergeRequest.hasMergeConflictsMark) return;
+
 	const twoWeeks = (20166) * 60 * 1000;
 	const nowTime = (new Date()).getTime();
 
@@ -265,6 +266,23 @@ const buildMergeRequest = (projectId = null, user = null, mergeRow, likedMergeRe
 		currentUserId: user ? user.id : null,
 		awaitDiscussionsList: [],
 		liked: likedByMe,
+
+		isReady: function isReady() {
+			if (!this.hasPassedTesting()) return false;
+			if (this.likes < 2 || this.isWip) return false;
+			if (this.hasMergeConflictsMark) return false;
+			return true;
+		},
+		isAlmostReady: function isAlmostReady() {
+			if (this.hasMergeConflictsMark) return false;
+			if (!this.hasPassedTesting()) return false;
+			if (this.likes < 1 || this.isWip) return false;
+			return true;
+		},
+		hasPassedTesting: function hasPassedTesting() {
+			if (!this.hasToTestLabel) return true;
+			return this.hasTestDoneLabel;
+		}
 	};
 	if (!projectId) return mergeRequest;
 	if (comments === 0) return mergeRequest;
