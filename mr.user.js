@@ -2,9 +2,9 @@
 // @name        Gitlab merge requests highlight
 // @namespace   Review
 // @description Highlight available merge request
-// @version     0.2.0
-// @updateUrl   https://github.com/fortael/tampermonkey-gitlab-helper/raw/master/mr.meta.js
-// @downloadURL https://github.com/fortael/tampermonkey-gitlab-helper/raw/master/mr.user.js
+// @version     0.3.0
+// @updateUrl   https://cdn.jsdelivr.net/gh/fortael/tampermonkey-gitlab-helper@latest/mr.meta.js
+// @downloadURL https://cdn.jsdelivr.net/gh/fortael/tampermonkey-gitlab-helper@latest/mr.user.js
 // @match       https://*/*/merge_requests*
 // @require     http://code.jquery.com/jquery-latest.js
 // @require     https://unpkg.com/axios/dist/axios.min.js
