@@ -44,7 +44,7 @@ const fetchProjectByName = async (name) => axios.get(`/api/v4/search?scope=proje
 		const data = _.get(response, 'data');
 		if (_.isEmpty(data)) return {};
 
-		return _.first(_.filter(data, project => project.name === name));
+		return _.first(_.filter(data, (project) => project.name === name));
 	})
 	.catch(console.error);
 
@@ -80,8 +80,8 @@ const setDiscussionInfo = async (mergeRequest) => {
 	}).length > 0;
 
 	const awaitDiscussions = discussions
-		.map(note => note.notes.filter(discussion => discussion.resolvable && !discussion.resolved))
-		.filter(value => !_.isEmpty(value));
+		.map((note) => note.notes.filter((discussion) => discussion.resolvable && !discussion.resolved))
+		.filter((value) => !_.isEmpty(value));
 
 	/* collapse discussions */
 	const flattenAwaitDiscussions = _.flatten(awaitDiscussions);
@@ -110,7 +110,7 @@ const getTime = (element) => Date.parse(element.querySelector('time').getAttribu
  */
 const hasToTestLabel = (element) => {
 	return Array.from(element.querySelectorAll('.gl-label-text'))
-		.filter(elem => toTestLabels.includes(elem.textContent.trim()))
+		.filter((elem) => toTestLabels.includes(elem.textContent.trim()))
 		.length > 0;
 };
 
@@ -120,17 +120,17 @@ const hasToTestLabel = (element) => {
  */
 const hasTestDoneLabel = (element) => {
 	return Array.from(element.querySelectorAll('.badge'))
-		.filter(elem => testDoneLabels.includes(elem.textContent.trim()))
+		.filter((elem) => testDoneLabels.includes(elem.textContent.trim()))
 		.length > 0;
 };
 
 const hasMergeConflictsMark = (mr) => mr.querySelectorAll('.issuable-pipeline-broken').length > 0;
-const isWip = mr => mr.querySelector('.merge-request-title-text a').textContent.includes('WIP');
+const isWip = (mr) => mr.querySelector('.merge-request-title-text a').textContent.includes('WIP');
 const isMergeRequestPage = () => document.querySelectorAll('.merge-request-tabs').length > 0;
-const getIssuableReference = mr => mr.querySelector('.issuable-reference').textContent.replace(/\D/g, '');
-const getMergeRequestTitleTextElement = mr => mr.querySelector('.merge-request-title-text');
-const getMergeDescription = mr => mr.querySelector('.issuable-info');
-const getLikes = mr => parseInt(_.get(mr.querySelector('.issuable-upvotes'), 'textContent', 0), 0) || 0;
+const getIssuableReference = (mr) => mr.querySelector('.issuable-reference').textContent.replace(/\D/g, '');
+const getMergeRequestTitleTextElement = (mr) => mr.querySelector('.merge-request-title-text');
+const getMergeDescription = (mr) => mr.querySelector('.issuable-info');
+const getLikes = (mr) => parseInt(_.get(mr.querySelector('.issuable-upvotes'), 'textContent', 0), 0) || 0;
 
 const getCurrentProjectName = () => {
 	const locationPath = window.location.pathname.split('/');
@@ -226,7 +226,7 @@ const highlightWhichIsDiscussed = (mergeRequest) => {
  * @param {string} match
  */
 const filterWithClassMatch = (mergeRequests, match) => {
-	mergeRequests.forEach(mr => {
+	mergeRequests.forEach((mr) => {
 		const hasClass = mr.element.querySelectorAll(match).length > 0;
 
 		if (hasClass) {
@@ -242,7 +242,7 @@ const filterWithClassMatch = (mergeRequests, match) => {
  * @param {Array<object>} mergeRequests
  */
 const filterReady = (mergeRequests) => {
-	mergeRequests.forEach(mr => {
+	mergeRequests.forEach((mr) => {
 		const isPipelineSuccess = mr.element.querySelectorAll('.ci-status-icon-success').length > 0;
 		const isReady = isPipelineSuccess
 			&& mr.likes >= 2
@@ -353,7 +353,7 @@ const decorateMergeRequest = (mergeRequest) => {
 		discussionsPanel.classList.add('issuable-info');
 		discussionsPanel.classList.add('small');
 
-		mergeRequest.awaitDiscussionsList.forEach(discussion => {
+		mergeRequest.awaitDiscussionsList.forEach((discussion) => {
 			discussionsPanel.append(discussionLabel(
 				discussion.author.name,
 				discussion.author.username,
@@ -416,7 +416,7 @@ const drawButtons = async () => {
 	const $queries = document.querySelector('.custom-panel__queries');
 
 	buttonsList.textContent = '';
-	buttonsList.forEach(btn => $queries.appendChild(btn));
+	buttonsList.forEach((btn) => $queries.appendChild(btn));
 };
 
 const drawFilters = async () => {
@@ -497,9 +497,9 @@ const showCustomToolbar = async () => {
 
 	const $jsFilterBtn = document.querySelectorAll('.js-filter');
 
-	$jsFilterBtn.forEach(btn => btn.setAttribute('disabled', 'disabled'));
+	$jsFilterBtn.forEach((btn) => btn.setAttribute('disabled', 'disabled'));
 
-	document.querySelector('.custom-panel__filters').addEventListener('click', event => {
+	document.querySelector('.custom-panel__filters').addEventListener('click', (event) => {
 		const target = event.target.closest('.js-filter');
 
 		if (target) {
@@ -507,7 +507,7 @@ const showCustomToolbar = async () => {
 			const match = button.dataset['match'];
 			const find = button.dataset['find'];
 
-			$jsFilterBtn.forEach(btn => btn.classList.remove('active'));
+			$jsFilterBtn.forEach((btn) => btn.classList.remove('active'));
 			button.classList.add('active');
 
 			if (match) {
@@ -521,14 +521,14 @@ const showCustomToolbar = async () => {
 			}
 		}
 	});
-	$jsFilterBtn.forEach(btn => btn.removeAttribute('disabled'));
+	$jsFilterBtn.forEach((btn) => btn.removeAttribute('disabled'));
 
 };
 
 const showToTestQueries = async (projectId) => {
 	const labels = await fetchLabels(projectId);
-	const toTestLabel = labels.filter(label => toTestLabels.includes(label.name)).pop();
-	const testedLabel = labels.filter(label => testDoneLabels.includes(label.name)).pop();
+	const toTestLabel = labels.filter((label) => toTestLabels.includes(label.name)).pop();
+	const testedLabel = labels.filter((label) => testDoneLabels.includes(label.name)).pop();
 
 	if (toTestLabel) {
 		const $toTestBtn = createButton('To test', '?scope=all&utf8=✓&state=' + state + '&label_name[]=' + toTestLabel.name);

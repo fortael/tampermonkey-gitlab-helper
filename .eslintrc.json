@@ -30,6 +30,7 @@
     "no-trailing-spaces": ["off"],
     "no-var": "error",
     "object-curly-spacing": ["error", "always"],
+    "arrow-parens": ["error", "always"],
     "prefer-const": "error",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
