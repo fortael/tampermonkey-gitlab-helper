@@ -2,7 +2,7 @@
 // @name        Gitlab merge requests highlight
 // @namespace   Review
 // @description Highlight available merge request
-// @version     0.3.0
+// @version     0.4.0
 // @homepage    https://github.com/fortael/tampermonkey-gitlab-helper
 // @updateUrl   https://cdn.jsdelivr.net/gh/fortael/tampermonkey-gitlab-helper@latest/mr.meta.js
 // @downloadURL https://cdn.jsdelivr.net/gh/fortael/tampermonkey-gitlab-helper@latest/mr.user.js
